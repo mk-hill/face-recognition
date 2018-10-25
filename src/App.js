@@ -30,8 +30,27 @@ class App extends Component {
     this.state = {
       input: '',
       imgUrl: '',
+      box: {},
     };
   }
+
+  calculateFaceLocation = data => {
+    const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputImage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: faceBox.left_col * width,
+      topRow: faceBox.top_row * height,
+      rightCol: width - faceBox.right_col * width,
+      bottomRow: height - faceBox.bottom_row * height,
+    };
+  };
+
+  displayFaceBox = box => {
+    this.setState({ box });
+    console.log(box);
+  };
 
   onInputChange = e => {
     this.setState({ input: e.target.value });
@@ -41,16 +60,12 @@ class App extends Component {
     this.setState({ imgUrl: this.state.input });
     // ? setState apparently causes issues when using state.imgUrl below ?
     // todo Research further
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(
-      function(response) {
-        console.log(
-          response.outputs[0].data.regions[0].region_info.bounding_box
-        );
-      },
-      function(err) {
-        // there was an error
-      }
-    );
+    app.models
+      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+      .then(response =>
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      )
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -64,7 +79,7 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onBtnSubmit={this.onBtnSubmit}
         />
-        <FaceRecognition imgUrl={this.state.imgUrl} />
+        <FaceRecognition box={this.state.box} imgUrl={this.state.imgUrl} />
       </div>
     );
   }
