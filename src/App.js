@@ -35,8 +35,28 @@ class App extends Component {
       box: {},
       route: 'signin',
       isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: '',
+      },
     };
   }
+
+  loadUser = data => {
+    const { id, name, email, entries, joined } = data;
+    this.setState({
+      user: {
+        id: id,
+        name: name,
+        email: email,
+        entries: entries,
+        joined: joined,
+      },
+    });
+  };
 
   calculateFaceLocation = data => {
     const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -82,7 +102,7 @@ class App extends Component {
   };
 
   render() {
-    const { isSignedIn, imgUrl, route, box } = this.state;
+    const { isSignedIn, imgUrl, route, box, user } = this.state;
     return (
       <div className="App">
         <Particles className="particles" params={particlesParams} />
@@ -93,7 +113,7 @@ class App extends Component {
         {route === 'home' ? (
           <div>
             <Logo />
-            <Rank />
+            <Rank name={user.name} entries={user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onBtnSubmit={this.onBtnSubmit}
@@ -101,9 +121,12 @@ class App extends Component {
             <FaceRecognition box={box} imgUrl={imgUrl} />
           </div>
         ) : route === 'signin' ? (
-          <SignIn onRouteChange={this.onRouteChange} />
+          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register
+            loadUser={this.loadUser}
+            onRouteChange={this.onRouteChange}
+          />
         )}
       </div>
     );
