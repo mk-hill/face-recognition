@@ -80,15 +80,28 @@ class App extends Component {
     this.setState({ input: e.target.value });
   };
 
-  onBtnSubmit = () => {
+  onImgSubmit = () => {
     this.setState({ imgUrl: this.state.input });
     // ? setState apparently causes issues when using state.imgUrl below ?
     // todo Research further
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then(response =>
-        this.displayFaceBox(this.calculateFaceLocation(response))
-      )
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3001/image', {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id,
+            }),
+          })
+            .then(res => res.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }));
+            });
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response));
+      })
       .catch(err => console.log(err));
   };
 
@@ -116,7 +129,7 @@ class App extends Component {
             <Rank name={user.name} entries={user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
-              onBtnSubmit={this.onBtnSubmit}
+              onImgSubmit={this.onImgSubmit}
             />
             <FaceRecognition box={box} imgUrl={imgUrl} />
           </div>
