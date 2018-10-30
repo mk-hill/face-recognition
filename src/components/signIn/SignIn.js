@@ -1,4 +1,5 @@
 import React from 'react';
+import './SignIn.css';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class SignIn extends React.Component {
         <div className="pa4 black-80">
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f2 fw6 ph0 mh0">Sign In</legend>
+              <legend className="f2 fw4 ph0 mh0 ">Sign In</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
                   Email

@@ -4,7 +4,7 @@ import './FaceRecognition.css';
 const FaceRecognition = ({ imgUrl, box }) => {
   return (
     <div className="center ma">
-      <div className="img-container center absolute mt2">
+      <div className="img-container absolute mt2">
         <img
           id="inputImage"
           src={imgUrl}

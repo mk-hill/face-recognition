@@ -1,4 +1,5 @@
 import React from 'react';
+import './Register.css';
 
 class Register extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Register extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
-        if (user) {
+        if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange('home');
         }
@@ -47,7 +48,7 @@ class Register extends React.Component {
         <div className="pa4 black-80">
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f2 fw6 ph0 mh0">Register</legend>
+              <legend className="f2 fw4 ph0 mh0">Register</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">
                   Name
