@@ -24,7 +24,7 @@ import FaceRecognition from './components/faceRecognition/FaceRecognition';
 const initialState = {
   input: '',
   imgUrl: '',
-  box: {},
+  box: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -56,16 +56,22 @@ class App extends Component {
   };
 
   calculateFaceLocation = data => {
-    const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
+    // const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: faceBox.left_col * width,
-      topRow: faceBox.top_row * height,
-      rightCol: width - faceBox.right_col * width,
-      bottomRow: height - faceBox.bottom_row * height,
-    };
+    const facesArr = [];
+    const apiFaces = data.outputs[0].data.regions;
+    apiFaces.forEach(faceData => {
+      const faceBox = faceData.region_info.bounding_box;
+      facesArr.push({
+        leftCol: faceBox.left_col * width,
+        topRow: faceBox.top_row * height,
+        rightCol: width - faceBox.right_col * width,
+        bottomRow: height - faceBox.bottom_row * height,
+      });
+    });
+    return facesArr;
   };
 
   displayFaceBox = box => {
@@ -136,7 +142,7 @@ class App extends Component {
             />
             <FaceRecognition box={box} imgUrl={imgUrl} />
           </div>
-        ) : route === 'signin' ? (
+        ) : route === 'signin' || route === 'signout' ? (
           <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
           <Register
