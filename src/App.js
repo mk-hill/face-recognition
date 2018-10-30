@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Particles from 'react-particles-js';
+// import Particles from 'react-particles-js';
 import './App.css';
 import Navigation from './components/navigation/Navigation';
 import SignIn from './components/signIn/SignIn';
@@ -9,17 +9,17 @@ import ImageLinkForm from './components/imageLinkForm/ImageLinkForm';
 import Rank from './components/rank/Rank';
 import FaceRecognition from './components/faceRecognition/FaceRecognition';
 
-const particlesParams = {
-  particles: {
-    number: {
-      value: 70,
-      density: {
-        enable: true,
-        value_area: 800,
-      },
-    },
-  },
-};
+// const particlesParams = {
+//   particles: {
+//     number: {
+//       value: 70,
+//       density: {
+//         enable: true,
+//         value_area: 800,
+//       },
+//     },
+//   },
+// };
 
 const initialState = {
   input: '',
@@ -121,7 +121,7 @@ class App extends Component {
     const { isSignedIn, imgUrl, route, box, user } = this.state;
     return (
       <div className="App">
-        <Particles className="particles" params={particlesParams} />
+        {/* <Particles className="particles" params={particlesParams} /> */}
         <Navigation
           isSignedIn={isSignedIn}
           onRouteChange={this.onRouteChange}
