@@ -1,3 +1,12 @@
 article {
+  position: relative;
+  top: 10vh;
   background: rgba(255, 255, 255, 0.15);
+}
+
+#email-address:hover,
+#email-address:focus,
+#password:hover,
+#password:focus {
+  background: rgba(0, 0, 0, 0.5);
 }
