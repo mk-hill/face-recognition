@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import './App.css';
 import Navigation from './components/navigation/Navigation';
 import SignIn from './components/signIn/SignIn';
@@ -9,10 +8,6 @@ import Logo from './components/logo/Logo';
 import ImageLinkForm from './components/imageLinkForm/ImageLinkForm';
 import Rank from './components/rank/Rank';
 import FaceRecognition from './components/faceRecognition/FaceRecognition';
-
-const app = new Clarifai.App({
-  apiKey: '084b162d2cb445c09c89aea2e2bef79f',
-});
 
 const particlesParams = {
   particles: {
@@ -85,8 +80,14 @@ class App extends Component {
     this.setState({ imgUrl: this.state.input });
     // ? setState apparently causes issues when using state.imgUrl above ?
     // todo Research further
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3001/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input,
+      }),
+    })
+      .then(res => res.json())
       .then(response => {
         if (response) {
           fetch('http://localhost:3001/image', {
