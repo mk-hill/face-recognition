@@ -4,8 +4,14 @@ import './FaceRecognition.css';
 const FaceRecognition = ({ imgUrl, box }) => {
   return imgUrl ? (
     <div className="center ma">
-      <div className="img-container absolute mt2">
-        <img id="inputImage" src={imgUrl} alt="" width="660px" height="auto" />
+      <div className="img-container absolute mt2 shadow-5">
+        <img
+          id="inputImage"
+          src={imgUrl}
+          alt="Enter a valid image URL"
+          width="660px"
+          height="auto"
+        />
         {box.map((box, i) => {
           return (
             <div

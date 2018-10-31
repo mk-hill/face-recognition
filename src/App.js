@@ -86,7 +86,7 @@ class App extends Component {
     this.setState({ imgUrl: this.state.input });
     // ? setState apparently causes issues when using state.imgUrl above ?
     // todo Research further
-    fetch('http://localhost:3001/imageurl', {
+    fetch('https://morning-savannah-81624.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -96,7 +96,7 @@ class App extends Component {
       .then(res => res.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3001/image', {
+          fetch('https://morning-savannah-81624.herokuapp.com/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
